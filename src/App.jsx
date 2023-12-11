@@ -8,7 +8,6 @@ import { Circle } from './Circle'
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <section className='bg-main w-[100vw] h-[100vh] flex justify-center items-center'>
