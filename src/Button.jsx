@@ -1,0 +1,12 @@
+
+import React from 'react'
+
+const Button = () => {
+  return (
+    <button className='w-28 h-10 flex justify-center items-center bg-secondary text-light text-xl rounded-xl'>
+      Start
+    </button>
+  )
+}
+
+export { Button }

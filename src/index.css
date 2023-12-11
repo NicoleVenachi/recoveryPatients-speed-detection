@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.box-shadow {
+  box-shadow: 0px 0px 50px rgba(30,144,255,0.5);
+}
+
+.layout{
+  /* // donde sea que cree las css variables, los hijos las podrán usar. pongo ademas valores por defecto */
+    background-image: radial-gradient(
+      circle farthest-corner at var(--x, 50vw) var(--y, 50vh),
+      #ff0a0a -65%,
+      transparent 20%
+    );
+
+    /* 1250aa */
+    /* background-color: aquamarine; */
+    
+
+}
