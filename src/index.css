@@ -8,14 +8,20 @@
 
 .layout{
   /* // donde sea que cree las css variables, los hijos las podrán usar. pongo ademas valores por defecto */
-    background-image: radial-gradient(
-      circle farthest-corner at var(--x, 50vw) var(--y, 50vh),
-      #ff0a0a -65%,
-      transparent 20%
-    );
+    /* background-image: radial-gradient(
+
+      
+      circle farthest-corner at var(--x, 100vw) var(--y, 1000vh),
+      red -15%,
+      transparent 90%
+    ); */
+    /* circle farthest-corner at 10px,100px center, */
 
     /* 1250aa */
     /* background-color: aquamarine; */
+    background-color: transparent;
+    box-shadow: 0px 0px 10px rgb(232, 129, 27);
+    
     
 
 }

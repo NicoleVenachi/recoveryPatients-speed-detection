@@ -6,30 +6,45 @@ import $ from 'jquery';
 
 const Circle = () => {
 
-  const mouseRef = useRef(null);
+  // const mouseRef = useRef(null);
+  // al pasar ref a un element connected component, será null, pr eso con jquery modificamos el DOM
 
-  const startMove = (ev) => {
+  const moving = (ev) => {
     // console.log(ev);
 
     const { x, y } = ev.center;
 
     console.log(x, y);
 
-    let clientX = 10
-    let clientY = 10
+    // let clientX = 10
+    // let clientY = 10
 
-    console.log(mouseRef);
-    // mouseRef.current.style.setProperty("--x", `${clientX}px`);
-    // mouseRef.current.style.setProperty("--y", `${clientY + window.scrollY}px`); //le agrego el valor que se ha scroleado
+    // console.log(mouseRef);
+
+    // $("#pointRef").css('--color', 'blue')
+    // console.log($("#pointRef").css('--color'));
+    // $("#pointRef").css('background-color', 'red');
+
+
+    // $("#pointRef").getAttribute("--color")
+
+    $("#pointRef").offset({ top: ev.center.y - 15, left: ev.center.x - 15 });
   }
 
+  const startMove = (ev) => {
+    $("#pointRef").addClass("layout")
 
+  }
   const stopMove = (ev) => {
     console.log(ev);
+    // $("#pointRef").removeClass("layout");
+    $("#pointRef").offset({ top: 0, left: 0 });
   }
 
   useEffect(() => {
-
+    // console.log(mouseRef.current);
+    // $("#pointRef").css("--x", "15px");
+    // $("#pointRef").css("--y", "15px");
 
   }, [])
   return (
@@ -55,12 +70,11 @@ const Circle = () => {
           <p> 4 </p>
         </div>
 
-        <Hammer onPan={startMove} onPanEnd={stopMove}>
+        <Hammer onPan={moving} onPanEnd={stopMove} onPanStart={startMove}>
           <div
-            className='absolute bottom-[calc(0px-15px)] left-[calc(50%-15px)] w-[30px] h-[30px] rounded-[50%] layout'
-
-            ref={mouseRef}
-          // bg-secondary/80 flex items-center justify-center text-light box-shadow layout'
+            id='pointRef'
+            // ref={mouseRef}
+            className='absolute bottom-[calc(0px-15px)] left-[calc(50%-15px)] w-[30px] h-[30px] rounded-[50%] '
           >
           </div>
         </Hammer>
