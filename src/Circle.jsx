@@ -6,8 +6,6 @@ import $ from 'jquery';
 
 const Circle = () => {
 
-  const [error, setError] = useState(false)
-
   const [windowSize, setWindowSize] = useState(getWindowSize()); //to get size even on resize
 
   const [initialPoints, setInitialPoints] = useState({
@@ -23,9 +21,31 @@ const Circle = () => {
 
     const { x, y } = ev.center;
 
-    if (x == 0 || y == 0) {
+    if (x == 0 || y == 0) { // fixing bugss
       stopMove(ev);
       return void 0;
+    }
+
+    if ((x > ((windowSize.innerWidth / 2) - 15 - 100) && x < ((windowSize.innerWidth / 2) + 15 - 100)) && (y > ((windowSize.innerHeight / 2) - 15) && y < ((windowSize.innerHeight / 2) + 15))) {
+
+      console.log('aaa');
+    }
+
+    if ((x > ((windowSize.innerWidth / 2) - 15) && x < ((windowSize.innerWidth / 2) + 15)) && (y > ((windowSize.innerHeight / 2) - 15 - 100) && y < ((windowSize.innerHeight / 2) + 15 - 100))) {
+
+      console.log('bbb');
+    }
+
+
+    if ((x > ((windowSize.innerWidth / 2) - 15 + 100) && x < ((windowSize.innerWidth / 2) + 15 + 100)) && (y > ((windowSize.innerHeight / 2) - 15) && y < ((windowSize.innerHeight / 2) + 15))) {
+
+      console.log('ccc');
+    }
+
+
+    if ((x > ((windowSize.innerWidth / 2) - 15) && x < ((windowSize.innerWidth / 2) + 15)) && (y > ((windowSize.innerHeight / 2) - 15 + 100) && y < ((windowSize.innerHeight / 2) + 15) + 100)) {
+
+      console.log('ddd');
     }
 
     $("#pointRef").offset({ top: y - 15, left: x - 15 });
@@ -62,6 +82,7 @@ const Circle = () => {
       window.removeEventListener('resize', handleWindowResize);
     };
   }, []);
+
   return (
     <div className='w-[100vw] h-[100vh] flex items-center justify-center'>
       <div
