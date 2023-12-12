@@ -11,6 +11,7 @@ const initialPath = {
   fourth: false,
 
   restarted: false,
+  finished: false,
 
 }
 const Circle = () => {
@@ -37,6 +38,18 @@ const Circle = () => {
     Swal.fire('Unsuccesfully!', 'Invalid path', 'error')
 
   }
+
+  const pathFinished = () => {
+
+    // dispatch({ type: 'finish' })
+
+    $("#pointRef").removeClass("layout")
+    $("#pointRef").offset({ top: initialPoints.top, left: initialPoints.left });
+
+    Swal.fire('Succesfully!', 'Valid data', 'success')
+
+  }
+
 
   const moving = (ev) => {
     // console.log(ev);
@@ -93,6 +106,7 @@ const Circle = () => {
 
       if (pathState.second && pathState.third && pathState.fourth && !pathState.first) {
         dispatch({ 'type': 'first' })
+        pathFinished();
       }
       else if ((pathState.second && (!pathState.third || !pathState.fourth)) || (pathState.third && !pathState.fourth)) {
         errorDetected();
