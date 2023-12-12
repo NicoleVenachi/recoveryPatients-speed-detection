@@ -162,13 +162,21 @@ const Circle = ({ setShowStart }) => {
 
       $("#pointRef").removeClass("layout")
       $("#pointRef").offset({ top: initialPoints.top, left: initialPoints.left });
-      let a = 5;
+
+
+      let time1 = (pathState.second.endTime - pathState.second.startTime) / 1000;
+      let time2 = (pathState.third.endTime - pathState.third.startTime) / 1000;
+      let time3 = (pathState.fourth.endTime - pathState.fourth.startTime) / 1000;
+      let time4 = (pathState.first.endTime - pathState.first.startTime) / 1000;
+
+      let arcLength = (2 * Math.PI * 100) / 4; // longitud de arco de cada recorrido es el perimetro dividido 4. 100 es el radio del circulo, que son 100px
+
       Swal.fire('Summary:',
         `
-          <b> 1->2 </b>: time elapsed: ${(pathState.second.endTime - pathState.second.startTime) / 1000} ms; speed: ${a}, <br />
-          <b> 2->3 </b>: time elapsed: ${(pathState.third.endTime - pathState.third.startTime) / 1000} ms; speed: ${a}, <br />
-          <b> 3->4 </b>: time elapsed: ${(pathState.fourth.endTime - pathState.fourth.startTime) / 1000} ms; speed: ${a}, <br />
-          <b> 4->1 </b>: time elapsed: ${(pathState.first.endTime - pathState.first.startTime) / 1000} ms; speed: ${a}, <br />
+          <b> 1->2 </b>: Time elapsed: ${time1} seg; Speed: ${(arcLength / time1).toFixed(2)} px/seg, <br />
+          <b> 2->3 </b>: Time elapsed: ${time2} seg; Speed: ${(arcLength / time2).toFixed(2)} px/seg, <br />
+          <b> 3->4 </b>: Time elapsed: ${time3} seg; Speed: ${(arcLength / time3).toFixed(2)} px/seg, <br />
+          <b> 4->1 </b>: Time elapsed: ${time4} seg; Speed: ${(arcLength / time4).toFixed(2)} px/seg, <br />
         `
         , 'success');
       setShowStart(true);
