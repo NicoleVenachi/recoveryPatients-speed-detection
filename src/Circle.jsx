@@ -179,10 +179,30 @@ const Circle = ({ setShowStart }) => {
 
       Swal.fire('Summary:',
         `
-          <b> 1->2 </b>: Time elapsed: ${time1} seg; Speed: ${(arcLength / time1).toFixed(2)} px/seg, <br />
-          <b> 2->3 </b>: Time elapsed: ${time2} seg; Speed: ${(arcLength / time2).toFixed(2)} px/seg, <br />
-          <b> 3->4 </b>: Time elapsed: ${time3} seg; Speed: ${(arcLength / time3).toFixed(2)} px/seg, <br />
-          <b> 4->1 </b>: Time elapsed: ${time4} seg; Speed: ${(arcLength / time4).toFixed(2)} px/seg, <br />
+          <b> Path 1->2 </b>: <br />
+          Time elapsed: ${time1} seg; <br />
+          Speed: ${(arcLength / time1).toFixed(2)} px/seg, <br /> <br />
+
+          <b> Path 2->3 </b>: <br />
+          Time elapsed: ${time2} seg; <br />
+          Speed: ${(arcLength / time2).toFixed(2)} px/seg, <br /> <br />
+
+          <b> Path 3->4 </b>: <br />
+          Time elapsed: ${time3} seg; <br />
+          Speed: ${(arcLength / time3).toFixed(2)} px/seg, <br /> <br />
+
+          <b> Path 4->1 </b>: <br />
+          Time elapsed: ${time4} seg; <br />
+          Speed: ${(arcLength / time4).toFixed(2)} px/seg, <br /> <br />
+
+          <b> Overall stats </b>: <br />
+          Total time elapsed: ${(time1 + time2 + time3 + time4).toFixed(2)} seg; <br />
+          Average Speed: ${(
+          (
+            (arcLength / time1) + (arcLength / time2) + (arcLength / time3) + (arcLength / time4)
+          )
+          / 4).toFixed(2)
+        } px/seg, <br />
         `
         , 'success');
       setShowStart(true);
