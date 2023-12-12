@@ -67,6 +67,13 @@ const Circle = ({ setShowStart }) => {
       return void 0;
     }
 
+    // logica para error si se sale del recuadro
+
+    if ((x < ((windowSize.innerWidth / 2) - 170) || x > ((windowSize.innerWidth / 2) + 170)) || (y < ((windowSize.innerHeight / 2) - 170) || y > ((windowSize.innerHeight / 2) + 170))) {
+      // console.log(x, y);
+      errorDetected();
+    }
+
 
     //logica para detectar cuando entra a los botones y cambiar ele stado en consecuencia
     if ((x > ((windowSize.innerWidth / 2) - 15 - 100) && x < ((windowSize.innerWidth / 2) + 15 - 100)) && (y > ((windowSize.innerHeight / 2) - 15) && y < ((windowSize.innerHeight / 2) + 15))) {
@@ -133,8 +140,7 @@ const Circle = ({ setShowStart }) => {
 
     // console.log(windowSize);
 
-    $("#pointRef").removeClass("layout");
-    $("#pointRef").offset({ top: initialPoints.top, left: initialPoints.left });
+    errorDetected();
 
   }
 
@@ -185,7 +191,7 @@ const Circle = ({ setShowStart }) => {
   }, [pathState.first.endTime]);
 
   return (
-    <div className='w-[100vw] h-[100vh] flex items-center justify-center'>
+    <div className='w-[300px] h-[300px] flex items-center justify-center'>
       <div
         className='w-[200px] h-[200px] rounded-[50%] border-2 border-dashed border-light border-opacity-5 shadow-[0_0_100px_rgba(30,144,255,0.2)]  relative'
 
