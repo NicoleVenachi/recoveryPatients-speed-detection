@@ -2,7 +2,7 @@ import { useEffect, useReducer, useRef, useState } from 'react'
 import Hammer from 'react-hammerjs'
 import $ from 'jquery';
 import Swal from 'sweetalert2';
-
+import moment from 'moment';
 
 const initialPath = {
   first: {
@@ -50,16 +50,6 @@ const Circle = ({ setShowStart }) => {
     $("#pointRef").offset({ top: initialPoints.top, left: initialPoints.left });
 
     Swal.fire('Error!', 'Invalid path', 'error')
-
-  }
-
-  const pathFinished = () => {
-
-    $("#pointRef").removeClass("layout")
-    $("#pointRef").offset({ top: initialPoints.top, left: initialPoints.left });
-
-    Swal.fire('Finished!', 'Valid data', 'success');
-    setShowStart(true);
 
   }
 
@@ -119,7 +109,7 @@ const Circle = ({ setShowStart }) => {
 
       if (pathState.second.status && pathState.third.status && pathState.fourth.status && !pathState.first.status) {
         dispatch({ 'type': 'first' });
-        pathFinished();
+        // pathFinished();
       }
       else if ((pathState.second.status && (!pathState.third.status || !pathState.fourth.status)) || (pathState.third.status && !pathState.fourth.status)) {
         errorDetected();
@@ -165,6 +155,19 @@ const Circle = ({ setShowStart }) => {
       window.removeEventListener('resize', handleWindowResize);
     };
   }, []);
+
+  useEffect(() => { // to run once the game finishes
+    if (pathState.first.endTime != null) {
+      // console.log(pathState);
+
+      $("#pointRef").removeClass("layout")
+      $("#pointRef").offset({ top: initialPoints.top, left: initialPoints.left });
+
+      Swal.fire('Finished!', 'Valid data', 'success');
+      setShowStart(true);
+    }
+
+  }, [pathState.first.endTime]);
 
   return (
     <div className='w-[100vw] h-[100vh] flex items-center justify-center'>
@@ -222,7 +225,8 @@ function reducer(state, action) {
         ...state,
         first: {
           ...state.first,
-          status: true
+          status: true,
+          endTime: moment()
         }
       };
     }
@@ -231,7 +235,12 @@ function reducer(state, action) {
         ...state,
         second: {
           ...state.second,
-          status: true
+          status: true,
+          endTime: moment()
+        },
+        third: {
+          ...state.third,
+          startTime: moment()
         }
       };
     }
@@ -240,7 +249,12 @@ function reducer(state, action) {
         ...state,
         third: {
           ...state.third,
-          status: true
+          status: true,
+          endTime: moment()
+        },
+        fourth: {
+          ...state.fourth,
+          startTime: moment()
         }
       };
     }
@@ -249,7 +263,12 @@ function reducer(state, action) {
         ...state,
         fourth: {
           ...state.fourth,
-          status: true
+          status: true,
+          endTime: moment()
+        },
+        first: {
+          ...state.first,
+          startTime: moment()
         }
       };
     }
@@ -264,7 +283,11 @@ function reducer(state, action) {
     case 'restart': {
       return {
         ...initialPath,
-        restart: false
+        restart: false,
+        second: {
+          ...state.second,
+          startTime: moment()
+        }
       }
     }
 
