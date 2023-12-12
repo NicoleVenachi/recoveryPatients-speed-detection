@@ -1,14 +1,30 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react'
+import { useEffect, useReducer, useRef, useState } from 'react'
 import Hammer from 'react-hammerjs'
 import $ from 'jquery';
 import Swal from 'sweetalert2';
 
 
 const initialPath = {
-  first: false,
-  second: false,
-  third: false,
-  fourth: false,
+  first: {
+    status: false,
+    startTime: null,
+    endTime: null
+  },
+  second: {
+    status: false,
+    startTime: null,
+    endTime: null
+  },
+  third: {
+    status: false,
+    startTime: null,
+    endTime: null
+  },
+  fourth: {
+    status: false,
+    startTime: null,
+    endTime: null
+  },
 
   restarted: false,
 }
@@ -65,11 +81,11 @@ const Circle = ({ setShowStart }) => {
     //logica para detectar cuando entra a los botones y cambiar ele stado en consecuencia
     if ((x > ((windowSize.innerWidth / 2) - 15 - 100) && x < ((windowSize.innerWidth / 2) + 15 - 100)) && (y > ((windowSize.innerHeight / 2) - 15) && y < ((windowSize.innerHeight / 2) + 15))) {
 
-      if (!pathState.second) {
+      if (!pathState.second.status) {
         dispatch({ 'type': 'second' })
       }
       // console.log(pathState);
-      if (pathState.third || pathState.fourth) {
+      if (pathState.third.status || pathState.fourth.status) {
         errorDetected();
 
       }
@@ -77,11 +93,11 @@ const Circle = ({ setShowStart }) => {
 
     if ((x > ((windowSize.innerWidth / 2) - 15) && x < ((windowSize.innerWidth / 2) + 15)) && (y > ((windowSize.innerHeight / 2) - 15 - 100) && y < ((windowSize.innerHeight / 2) + 15 - 100))) {
 
-      if (pathState.second && !pathState.third) {
+      if (pathState.second.status && !pathState.third.status) {
         dispatch({ 'type': 'third' })
       }
 
-      if (pathState.fourth || (!pathState.first && !pathState.second && !pathState.third && !pathState.fourth)) {
+      if (pathState.fourth.status || (!pathState.first.status && !pathState.second.status && !pathState.third.status && !pathState.fourth.status)) {
         errorDetected();
       }
     }
@@ -89,11 +105,11 @@ const Circle = ({ setShowStart }) => {
 
     if ((x > ((windowSize.innerWidth / 2) - 15 + 100) && x < ((windowSize.innerWidth / 2) + 15 + 100)) && (y > ((windowSize.innerHeight / 2) - 15) && y < ((windowSize.innerHeight / 2) + 15))) {
 
-      if (pathState.second && pathState.third && !pathState.fourth) {
+      if (pathState.second.status && pathState.third.status && !pathState.fourth.status) {
         dispatch({ 'type': 'fourth' })
       }
 
-      if ((pathState.second && !pathState.third) || (!pathState.first && !pathState.second && !pathState.third && !pathState.fourth)) {
+      if ((pathState.second.status && !pathState.third.status) || (!pathState.first.status && !pathState.second.status && !pathState.third.status && !pathState.fourth.status)) {
         errorDetected();
       }
     }
@@ -101,11 +117,11 @@ const Circle = ({ setShowStart }) => {
 
     if ((x > ((windowSize.innerWidth / 2) - 15) && x < ((windowSize.innerWidth / 2) + 15)) && (y > ((windowSize.innerHeight / 2) - 15 + 100) && y < ((windowSize.innerHeight / 2) + 15) + 100)) {
 
-      if (pathState.second && pathState.third && pathState.fourth && !pathState.first) {
+      if (pathState.second.status && pathState.third.status && pathState.fourth.status && !pathState.first.status) {
         dispatch({ 'type': 'first' });
         pathFinished();
       }
-      else if ((pathState.second && (!pathState.third || !pathState.fourth)) || (pathState.third && !pathState.fourth)) {
+      else if ((pathState.second.status && (!pathState.third.status || !pathState.fourth.status)) || (pathState.third.status && !pathState.fourth.status)) {
         errorDetected();
       }
     }
@@ -204,25 +220,37 @@ function reducer(state, action) {
     case 'first': {
       return {
         ...state,
-        first: true
+        first: {
+          ...state.first,
+          status: true
+        }
       };
     }
     case 'second': {
       return {
         ...state,
-        second: true
+        second: {
+          ...state.second,
+          status: true
+        }
       };
     }
     case 'third': {
       return {
         ...state,
-        third: true
+        third: {
+          ...state.third,
+          status: true
+        }
       };
     }
     case 'fourth': {
       return {
         ...state,
-        fourth: true
+        fourth: {
+          ...state.fourth,
+          status: true
+        }
       };
     }
 
