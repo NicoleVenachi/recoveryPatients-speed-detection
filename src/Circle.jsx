@@ -162,8 +162,16 @@ const Circle = ({ setShowStart }) => {
 
       $("#pointRef").removeClass("layout")
       $("#pointRef").offset({ top: initialPoints.top, left: initialPoints.left });
-
-      Swal.fire('Finished!', 'Valid data', 'success');
+      let a = 5;
+      Swal.fire('Finished!',
+        `
+          Summary: \n
+          1->2; time elapsed: ${(pathState.second.endTime - pathState.second.startTime) / 1000} ms; speed: ${a},
+          2->3; time elapsed: ${(pathState.third.endTime - pathState.third.startTime) / 1000} ms; speed: ${a},
+          3->4; time elapsed: ${(pathState.fourth.endTime - pathState.fourth.startTime) / 1000} ms; speed: ${a},
+          1->2; time elapsed: ${(pathState.first.endTime - pathState.first.startTime) / 1000} ms; speed: ${a},
+        `
+        , 'success');
       setShowStart(true);
     }
 
