@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useRef, useState } from 'react'
 import Hammer from 'react-hammerjs'
 import $ from 'jquery';
-
+import Swal from 'sweetalert2';
 
 
 const initialPath = {
@@ -46,6 +46,15 @@ const Circle = () => {
       // console.log(pathState);
       if (pathState.third || pathState.fourth) {
         console.log('error');
+
+        Swal.fire('Unsuccesfully!', 'Invalid path', 'error')
+
+
+        // Swal.fire('Succesfully!', 'Valid data', 'success')
+        //   .then(function () {
+        //     navigate('/home')
+        //   })
+
       }
     }
 
@@ -57,6 +66,7 @@ const Circle = () => {
 
       if (pathState.fourth || (!pathState.first && !pathState.second && !pathState.third && !pathState.fourth)) {
         console.log('error');
+        Swal.fire('Unsuccesfully!', 'Invalid path', 'error')
       }
     }
 
@@ -69,6 +79,7 @@ const Circle = () => {
 
       if ((pathState.second && !pathState.third) || (!pathState.first && !pathState.second && !pathState.third && !pathState.fourth)) {
         console.log('error');
+        Swal.fire('Unsuccesfully!', 'Invalid path', 'error')
       }
     }
 
@@ -80,6 +91,7 @@ const Circle = () => {
       }
       else if ((pathState.second && (!pathState.third || !pathState.fourth)) || (pathState.third && !pathState.fourth)) {
         console.log('error');
+        Swal.fire('Unsuccesfully!', 'Invalid path', 'error')
       }
     }
 
