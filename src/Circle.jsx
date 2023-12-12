@@ -11,10 +11,8 @@ const initialPath = {
   fourth: false,
 
   restarted: false,
-  finished: false,
-
 }
-const Circle = () => {
+const Circle = ({ setShowStart }) => {
 
   // const mouseRef = useRef(null);
   // al pasar ref a un element connected component, será null, pr eso con jquery modificamos el DOM
@@ -35,18 +33,17 @@ const Circle = () => {
     $("#pointRef").removeClass("layout")
     $("#pointRef").offset({ top: initialPoints.top, left: initialPoints.left });
 
-    Swal.fire('Unsuccesfully!', 'Invalid path', 'error')
+    Swal.fire('Error!', 'Invalid path', 'error')
 
   }
 
   const pathFinished = () => {
 
-    // dispatch({ type: 'finish' })
-
     $("#pointRef").removeClass("layout")
     $("#pointRef").offset({ top: initialPoints.top, left: initialPoints.left });
 
-    Swal.fire('Succesfully!', 'Valid data', 'success')
+    Swal.fire('Finished!', 'Valid data', 'success');
+    setShowStart(true);
 
   }
 
@@ -105,7 +102,7 @@ const Circle = () => {
     if ((x > ((windowSize.innerWidth / 2) - 15) && x < ((windowSize.innerWidth / 2) + 15)) && (y > ((windowSize.innerHeight / 2) - 15 + 100) && y < ((windowSize.innerHeight / 2) + 15) + 100)) {
 
       if (pathState.second && pathState.third && pathState.fourth && !pathState.first) {
-        dispatch({ 'type': 'first' })
+        dispatch({ 'type': 'first' });
         pathFinished();
       }
       else if ((pathState.second && (!pathState.third || !pathState.fourth)) || (pathState.third && !pathState.fourth)) {
@@ -136,6 +133,7 @@ const Circle = () => {
   }
 
   useEffect(() => {
+    // console.log('mounted', pathState);
 
     setInitialPoints({ top: (windowSize.innerHeight / 2) - 16.5 + 100, left: (windowSize.innerWidth / 2) - 15.2 });
     function handleWindowResize() {
@@ -147,6 +145,7 @@ const Circle = () => {
     window.addEventListener('resize', handleWindowResize);
 
     return () => {
+      // console.log('unmounted', pathState);
       window.removeEventListener('resize', handleWindowResize);
     };
   }, []);

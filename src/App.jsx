@@ -9,10 +9,18 @@ import { Circle } from './Circle'
 
 function App() {
 
+  const [showStart, setShowStart] = useState(true);
+
   return (
     <section className='bg-main w-[100vw] h-[100vh] flex justify-center items-center'>
-      {/* <Button /> */}
-      <Circle />
+      {
+        showStart && <Button setShowStart={setShowStart} />
+      }
+
+      {
+        !showStart && <Circle setShowStart={setShowStart} />
+      }
+
     </section>
   )
 }
