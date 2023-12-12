@@ -1,9 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useReducer, useRef, useState } from 'react'
 import Hammer from 'react-hammerjs'
 import $ from 'jquery';
 
 
 
+const initialPath = {
+  first: false,
+  second: false,
+  third: false,
+  fourth: false,
+
+}
 const Circle = () => {
 
   const [windowSize, setWindowSize] = useState(getWindowSize()); //to get size even on resize
@@ -12,6 +19,9 @@ const Circle = () => {
     top: 0,
     left: 0,
   })
+
+  const [pathState, dispatch] = useReducer(reducer, initialPath);
+
 
   // const mouseRef = useRef(null);
   // al pasar ref a un element connected component, será null, pr eso con jquery modificamos el DOM
@@ -26,26 +36,51 @@ const Circle = () => {
       return void 0;
     }
 
+
+    //logica para detectar cuando entra a los botones y cambiar ele stado en consecuencia
     if ((x > ((windowSize.innerWidth / 2) - 15 - 100) && x < ((windowSize.innerWidth / 2) + 15 - 100)) && (y > ((windowSize.innerHeight / 2) - 15) && y < ((windowSize.innerHeight / 2) + 15))) {
 
-      console.log('aaa');
+      if (!pathState.second) {
+        dispatch({ 'type': 'second' })
+      }
+      // console.log(pathState);
+      if (pathState.third || pathState.fourth) {
+        console.log('error');
+      }
     }
 
     if ((x > ((windowSize.innerWidth / 2) - 15) && x < ((windowSize.innerWidth / 2) + 15)) && (y > ((windowSize.innerHeight / 2) - 15 - 100) && y < ((windowSize.innerHeight / 2) + 15 - 100))) {
 
-      console.log('bbb');
+      if (pathState.second && !pathState.third) {
+        dispatch({ 'type': 'third' })
+      }
+
+      if (pathState.fourth || (!pathState.first && !pathState.second && !pathState.third && !pathState.fourth)) {
+        console.log('error');
+      }
     }
 
 
     if ((x > ((windowSize.innerWidth / 2) - 15 + 100) && x < ((windowSize.innerWidth / 2) + 15 + 100)) && (y > ((windowSize.innerHeight / 2) - 15) && y < ((windowSize.innerHeight / 2) + 15))) {
 
-      console.log('ccc');
+      if (pathState.second && pathState.third && !pathState.fourth) {
+        dispatch({ 'type': 'fourth' })
+      }
+
+      if ((pathState.second && !pathState.third) || (!pathState.first && !pathState.second && !pathState.third && !pathState.fourth)) {
+        console.log('error');
+      }
     }
 
 
     if ((x > ((windowSize.innerWidth / 2) - 15) && x < ((windowSize.innerWidth / 2) + 15)) && (y > ((windowSize.innerHeight / 2) - 15 + 100) && y < ((windowSize.innerHeight / 2) + 15) + 100)) {
 
-      console.log('ddd');
+      if (pathState.second && pathState.third && pathState.fourth && !pathState.first) {
+        dispatch({ 'type': 'first' })
+      }
+      else if ((pathState.second && (!pathState.third || !pathState.fourth)) || (pathState.third && !pathState.fourth)) {
+        console.log('error');
+      }
     }
 
     $("#pointRef").offset({ top: y - 15, left: x - 15 });
@@ -91,8 +126,6 @@ const Circle = () => {
       // shadow-[0_0_50px_rgba(30,144,255,0.5)] shadow-secondary/50 shadow-2xl'
       >
         <div className='absolute bottom-[calc(0px-15px)] left-[calc(50%-15px)] w-[30px] h-[30px] rounded-[50%] bg-secondary/80 flex items-center justify-center text-light box-shadow'
-
-          id='startPoint'
         >
           <p> 1 </p>
         </div>
@@ -132,6 +165,37 @@ export { Circle }
 function getWindowSize() {
   const { innerWidth, innerHeight } = window;
   return { innerWidth, innerHeight };
+}
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'first': {
+      return {
+        ...state,
+        first: true
+      };
+    }
+    case 'second': {
+      return {
+        ...state,
+        second: true
+      };
+    }
+    case 'third': {
+      return {
+        ...state,
+        third: true
+      };
+    }
+    case 'fourth': {
+      return {
+        ...state,
+        fourth: true
+      };
+    }
+
+  }
+  throw Error('Unknown action: ' + action.type);
 }
 
 // cositas de Jquery
