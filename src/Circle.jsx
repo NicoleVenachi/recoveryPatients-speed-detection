@@ -10,8 +10,13 @@ const initialPath = {
   third: false,
   fourth: false,
 
+  restarted: false,
+
 }
 const Circle = () => {
+
+  // const mouseRef = useRef(null);
+  // al pasar ref a un element connected component, será null, pr eso con jquery modificamos el DOM
 
   const [windowSize, setWindowSize] = useState(getWindowSize()); //to get size even on resize
 
@@ -22,15 +27,25 @@ const Circle = () => {
 
   const [pathState, dispatch] = useReducer(reducer, initialPath);
 
+  const errorDetected = () => {
 
-  // const mouseRef = useRef(null);
-  // al pasar ref a un element connected component, será null, pr eso con jquery modificamos el DOM
+    dispatch({ type: 'error' })
+
+    $("#pointRef").removeClass("layout")
+    $("#pointRef").offset({ top: initialPoints.top, left: initialPoints.left });
+
+    Swal.fire('Unsuccesfully!', 'Invalid path', 'error')
+
+  }
 
   const moving = (ev) => {
     // console.log(ev);
 
     const { x, y } = ev.center;
 
+    if (pathState.restart) {
+      return void 0; // salir si hubo error
+    }
     if (x == 0 || y == 0) { // fixing bugss
       stopMove(ev);
       return void 0;
@@ -45,15 +60,7 @@ const Circle = () => {
       }
       // console.log(pathState);
       if (pathState.third || pathState.fourth) {
-        console.log('error');
-
-        Swal.fire('Unsuccesfully!', 'Invalid path', 'error')
-
-
-        // Swal.fire('Succesfully!', 'Valid data', 'success')
-        //   .then(function () {
-        //     navigate('/home')
-        //   })
+        errorDetected();
 
       }
     }
@@ -65,8 +72,7 @@ const Circle = () => {
       }
 
       if (pathState.fourth || (!pathState.first && !pathState.second && !pathState.third && !pathState.fourth)) {
-        console.log('error');
-        Swal.fire('Unsuccesfully!', 'Invalid path', 'error')
+        errorDetected();
       }
     }
 
@@ -78,8 +84,7 @@ const Circle = () => {
       }
 
       if ((pathState.second && !pathState.third) || (!pathState.first && !pathState.second && !pathState.third && !pathState.fourth)) {
-        console.log('error');
-        Swal.fire('Unsuccesfully!', 'Invalid path', 'error')
+        errorDetected();
       }
     }
 
@@ -90,8 +95,7 @@ const Circle = () => {
         dispatch({ 'type': 'first' })
       }
       else if ((pathState.second && (!pathState.third || !pathState.fourth)) || (pathState.third && !pathState.fourth)) {
-        console.log('error');
-        Swal.fire('Unsuccesfully!', 'Invalid path', 'error')
+        errorDetected();
       }
     }
 
@@ -103,6 +107,9 @@ const Circle = () => {
     console.log(ev.center);
 
     $("#pointRef").offset({ top: initialPoints.top, left: initialPoints.left });
+
+
+    dispatch({ type: 'restart' }) // set restart again on false, to allow movement
 
   }
   const stopMove = (ev) => {
@@ -204,6 +211,20 @@ function reducer(state, action) {
         ...state,
         fourth: true
       };
+    }
+
+    case 'error': {
+      return {
+        ...initialPath,
+        restart: true
+      }
+    }
+
+    case 'restart': {
+      return {
+        ...initialPath,
+        restart: false
+      }
     }
 
   }
