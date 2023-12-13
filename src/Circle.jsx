@@ -1,8 +1,12 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
-import Hammer from 'react-hammerjs'
+// import Hammer from 'react-hammerjs'
 import $ from 'jquery';
 import Swal from 'sweetalert2';
 import moment from 'moment';
+
+import { useGesture } from '@use-gesture/react'
+
+
 
 const initialPath = {
   first: {
@@ -30,6 +34,36 @@ const initialPath = {
 }
 const Circle = ({ setShowStart }) => {
 
+
+  const mouseRef = useRef(null);
+  useGesture(
+    {
+      onDrag: (ev) => {
+
+        moving(ev);
+        // console.log(ev);
+        // $("#pointRef").addClass("layout")
+        // // console.log(ev.center);
+
+        // $("#pointRef").offset({ top: ev.values[1], left: ev.values[0] });
+      },
+
+      onDragStart: (ev) => {
+        // console.log(ev.initial);
+        startMove();
+      },
+      onDragEnd: (ev) => {
+        stopMove();
+      }
+
+    },
+    {
+      target: mouseRef,
+      // eventOptions: { passive: false },
+    }
+  );
+
+
   // const mouseRef = useRef(null);
   // al pasar ref a un element connected component, será null, pr eso con jquery modificamos el DOM
 
@@ -54,10 +88,11 @@ const Circle = ({ setShowStart }) => {
   }
 
 
-  const moving = (ev) => {
+  const moving = ({ values: [x, y] }) => {
     // console.log(ev);
 
-    const { x, y } = ev.center;
+    // console.log(x, y);
+    // return void 0;
 
     if (pathState.restart) {
       return void 0; // salir si hubo error
@@ -128,7 +163,7 @@ const Circle = ({ setShowStart }) => {
 
   const startMove = (ev) => {
     $("#pointRef").addClass("layout")
-    console.log(ev.center);
+    // console.log(ev.center);
 
     $("#pointRef").offset({ top: initialPoints.top, left: initialPoints.left });
 
@@ -236,17 +271,26 @@ const Circle = ({ setShowStart }) => {
           <p> 4 </p>
         </div>
 
-        <Hammer onPan={moving} onPanEnd={stopMove} onPanStart={startMove}>
-          <div
-            id='pointRef'
-            // ref={mouseRef}
-            className='absolute bottom-[calc(0px-15px)] left-[calc(50%-15px)] w-[30px] h-[30px] rounded-[50%] '
-          >
-          </div>
-        </Hammer>
+        {/* <Hammer onPan={moving} onPanEnd={stopMove} onPanStart={startMove}> */}
+        <div
+          id='pointRef'
+          ref={mouseRef}
+          className='absolute bottom-[calc(0px-15px)] left-[calc(50%-15px)] w-[30px] h-[30px] rounded-[50%] '
+        >
+        </div>
+        {/* </Hammer> */}
 
       </div>
+
+      {/* <div className='w-20 h-20 bg-light'>
+        <div className='w-10 h-10 bg-secondary' ref={mouseRef}>
+
+        </div>
+
+
+      </div> */}
     </div>
+
 
   )
 }

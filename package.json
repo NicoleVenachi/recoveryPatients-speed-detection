@@ -10,13 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@use-gesture/react": "^10.3.0",
     "jquery": "^3.6.1",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hammerjs": "^1.0.1",
-    "sweetalert2": "^11.4.8",
-    "vite-plugin-require": "^1.1.14"
+    "sweetalert2": "^11.4.8"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
