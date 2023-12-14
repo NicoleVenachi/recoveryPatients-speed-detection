@@ -215,19 +215,19 @@ const Circle = ({ setShowStart }) => {
       Swal.fire('Summary:',
         `
           <b> Path 1->2 </b>: <br />
-          Time elapsed: ${time1} seg; <br />
+          Elapsed Time: ${time1} seg; <br />
           Speed: ${(arcLength / time1).toFixed(2)} px/seg, <br /> <br />
 
           <b> Path 2->3 </b>: <br />
-          Time elapsed: ${time2} seg; <br />
+          Elapsed Time: ${time2} seg; <br />
           Speed: ${(arcLength / time2).toFixed(2)} px/seg, <br /> <br />
 
           <b> Path 3->4 </b>: <br />
-          Time elapsed: ${time3} seg; <br />
+          Elapsed Time: ${time3} seg; <br />
           Speed: ${(arcLength / time3).toFixed(2)} px/seg, <br /> <br />
 
           <b> Path 4->1 </b>: <br />
-          Time elapsed: ${time4} seg; <br />
+          Elapsed Time: ${time4} seg; <br />
           Speed: ${(arcLength / time4).toFixed(2)} px/seg, <br /> <br />
 
           <b> Overall stats </b>: <br />
